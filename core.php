@@ -41,15 +41,30 @@
     	$resHD = linkHD($fetch);
     	$resSD = linkSD($fetch);
      	if($resHD != '') {
-        	$source = '
-        	<source src="'.$resHD.'" type="video/mp4" res="HD" label="HD"/>
-        	<source src="'.$resSD.'" type="video/mp4" res="SD" label="SD"/>
-        	';
+        	$source = "
+            {
+              src: '$resSD',
+              type: 'video/mp4',
+              label: 'SD',
+              res: 360
+            },
+            {
+              src: '$resHD',
+              type: 'video/mp4',
+              label: 'HD',
+              res: 720
+            }
+        	";
      		return $source;
     	} else {
-     		$source = '
-     		<source src="'.$resSD.'" type="video/mp4" res="SD" label="SD"/>
-     		';
+     		$source = "
+            {
+              src: '$resSD',
+              type: 'video/mp4',
+              label: 'SD',
+              res: 360
+            }
+     		";
      		return $source;
     	}	
     }
