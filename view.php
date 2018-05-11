@@ -8,20 +8,38 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" media="screen" href="https://cdnjs.cloudflare.com/ajax/libs/video.js/5.11.9/video-js.min.css">
-        <link rel="stylesheet" media="screen" href="./template_view.css">
+        <title>VideoJS Player</title>
+        <link rel="stylesheet" href="./template_view.css">
+        <link rel="stylesheet" href="./function_view.css">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/videojs-resolution-switcher/0.4.2/videojs-resolution-switcher.min.css" />
     </head>
     <body>
-    <video id="uniqueID" class="video-js vjs-fluid vjs-16-9" controls preload="auto" width="640" height="264" data-setup='{}'>
-        <?php
-        echo $fdata;
-        ?>
-    </video>
+    <video id='video' class="video-js vjs-fluid vjs-16-9 vjs-big-play-centered" controls preload="auto" width="640" height="264" data-setup='{}'></video>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="./script_view.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/video.js/5.11.9/ie8/videojs-ie8.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/video.js/5.11.9/video.min.js"></script>
+    <script src="./switch_view.js"></script>
+    <script>
+        videojs('video', {
+          controls: true,
+          fluid: true,
+          plugins: {
+            videoJsResolutionSwitcher: {
+              default: 'low',
+              dynamicLabel: true
+            }
+          }
+        }, function(){
+          var player = this;
+          window.player = player
+          player.updateSrc([
+        <?php
+            echo $fdata
+        ?>
+          ])
+          player.on('resolutionchange', function(){
+            console.info('Source changed to %s', player.src())
+          })
+        })
+    </script>
     </body>
 </html>
